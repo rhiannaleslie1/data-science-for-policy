@@ -1,3 +1,0 @@
-The silhoutte score for the CPI all sector clustering is: 0.347498686797057
-
-The silhoutte score for the CPI food type clustering is: 0.372180412111395
