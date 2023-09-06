@@ -63,12 +63,19 @@ clustering_visualisation <- function(cluster_data, group_col, lab){
       labs(x = "Date",
            y = "12 month percentage change",
            colour = paste0(lab, " in cluster")) +
-      guides(colour = guide_legend(ncol = 1)) +
-      scale_y_continuous(limits = c(min(cluster_data$perc_change), max(cluster_data$perc_change)))
+      guides(colour = guide_legend(ncol =  1)) +
+      scale_y_continuous(limits = c(min(cluster_data$perc_change), max(cluster_data$perc_change))) +
+      theme(legend.text = element_text(size = 14),
+            legend.title = element_text(size = 16),
+            legend.position = "right",
+            axis.title = element_text(size = 16),
+            axis.text.x = element_text(size = 14),
+            axis.text.y = element_text(size = 14),
+            strip.text = element_text(size = 18))
     
     ggsave(paste0("outputs/", lab, each_cluster,".png"),
            height = 10,
-           width = 12)
+           width = 15)
     
   }
   

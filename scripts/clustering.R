@@ -2,6 +2,7 @@
 source("scripts/get_cpi_data.R")
 source("R/utils.R")
 file.create("outputs/clustering_sil_scores.txt")
+set.seed(42)
 
 # All Sectors Clustering --------------------------------------------------
 
@@ -44,7 +45,8 @@ clustering_visualisation(cluster_data = cpi_sectors_preds,
 cat(paste0("The silhoutte score for the CPI all sector clustering is: ", cpi_sectors_clustered$score), 
     file = "outputs/clustering_sil_scores.txt")
 
-jpeg("outputs/sectors_sil_plot.jpg")
+
+png("outputs/sectors_sil_plot.png")
 cpi_sectors_clustered$sil_plot
 dev.off()
 
@@ -89,7 +91,7 @@ cat(paste0("\n\nThe silhoutte score for the CPI food type clustering is: ", cpi_
     file = "outputs/clustering_sil_scores.txt",
     append = TRUE)
 
-jpeg("outputs/food_type_sil_plot.jpg")
+png("outputs/food_type_sil_plot.png")
 cpi_food_clustered$sil_plot
 dev.off()
 
