@@ -4,7 +4,7 @@ get_cluster_partitions <- function(data, group_col, cluster_num) {
   group_col <- sym(group_col)
   
   features <- data %>%
-    select(-group_col)
+    select(-all_of(group_col))
   
   # Create a new clustering task with features 
   task_cluster <- TaskClust$new(
@@ -20,7 +20,7 @@ get_cluster_partitions <- function(data, group_col, cluster_num) {
   # create a learner object
   learner_kmeans = mlr_learners$get("clust.kmeans")
   
-  learner_kmeans$param_set$values = list(centers = cluster_num, algorithm = "Lloyd", iter.max = 200L)
+  learner_kmeans$param_set$values = list(centers = cluster_num, algorithm = "Lloyd", iter.max = 100L)
   
   # Train the kmeans learner on scaled dataset
   learner_kmeans$train(task_cluster)
@@ -48,7 +48,29 @@ get_cluster_partitions <- function(data, group_col, cluster_num) {
 }
 
 
-clustering_visualisation <- function(cluster_data){
+clustering_visualisation <- function(cluster_data, group_col, lab){
+  
+  group_col <- sym(group_col)
+  
+  plot_data <- split(cluster_data, f = cluster_data$partition)
+  
+  for (each_cluster in 1:length(plot_data)) {
+    
+    p <- ggplot(data = plot_data[[each_cluster]]) +
+      geom_line(aes(y = perc_change, x = date, colour = !!group_col)) +
+      theme_bw() +
+      facet_wrap(~partition) +
+      labs(x = "Date",
+           y = "12 month percentage change",
+           colour = paste0(lab, " in cluster")) +
+      guides(colour = guide_legend(ncol = 1)) +
+      scale_y_continuous(limits = c(min(cluster_data$perc_change), max(cluster_data$perc_change)))
+    
+    ggsave(paste0("outputs/", lab, each_cluster,".png"),
+           height = 10,
+           width = 12)
+    
+  }
   
   
 }
