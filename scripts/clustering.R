@@ -65,10 +65,16 @@ elbow_df <- as.data.frame(cbind("n_clust" = n_clust, "wss" = wss))
 
 #choose cluster num = 4
 ggplot(elbow_df) +
-  geom_line(aes(y = wss, x = n_clust), colour = "#82518c") +
-  theme_minimal() +
-  scale_x_continuous(breaks = n_clust)
+  geom_line(aes(y = wss, x = n_clust), colour = "navy") +
+  theme_bw() +
+  scale_x_continuous(breaks = n_clust) +
+  labs(x = "number of clusters",
+       y = "wss",
+       title = "CPI food products elbow plot") 
 
+ggsave("outputs/food_type_elbow.png",
+       height = 10,
+       width = 12)
 
 #running the clustering algorithm
 cpi_food_clustered <- get_cluster_partitions(
